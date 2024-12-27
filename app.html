@@ -1,0 +1,1546 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我爱学习，学习使我妈快乐！</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial Rounded MT Bold', 'Microsoft YaHei', sans-serif;
+            background-color: #f0f7ff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            max-width: 800px;
+            width: 90%;
+            margin: 20px auto;
+            text-align: center;
+        }
+
+        .header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 1.8em;
+        }
+
+        .word-card {
+            background-color: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+            margin: 20px 0;
+        }
+
+        .word-content {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .word-info {
+            flex: 1;
+            text-align: left;
+            padding-left: 10px;
+        }
+
+        .word-image {
+            width: 120px;
+            height: 120px;
+            border-radius: 12px;
+            object-fit: cover;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .word-image:hover {
+            transform: scale(1.05);
+        }
+
+        .word {
+            font-size: 2.8em;
+            color: #333;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .phonetic {
+            color: #666;
+            font-size: 1.3em;
+            margin-bottom: 15px;
+        }
+
+        .meaning {
+            font-size: 1.6em;
+            color: #444;
+            margin-bottom: 20px;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: flex-start;
+            gap: 15px;
+        }
+
+        button {
+            padding: 12px 25px;
+            font-size: 1.1em;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        button:hover {
+            transform: scale(1.05);
+        }
+
+        .know-btn {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .unknown-btn {
+            background-color: #ff7043;
+            color: white;
+        }
+
+        .progress-container {
+            position: relative;
+            width: 100%;
+            margin: 20px 0;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 25px;
+            background-color: #e0e0e0;
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress {
+            width: 30%;
+            height: 100%;
+            background-color: #4CAF50;
+            border-radius: 12px;
+            transition: width 0.3s ease;
+        }
+
+        .running-dog {
+            position: absolute;
+            top: -25px;
+            left: calc(30% - 25px);
+            width: 50px;
+            height: 50px;
+            background-image: url('images/cute-white-dog-cartoon-puppy-illustration-for-pet-lovers_m_wm.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            animation: run 0.6s infinite steps(2), bounce 0.6s infinite alternate;
+            transition: left 0.3s ease;
+            transform-origin: center bottom;
+        }
+
+        @keyframes run {
+            0% { transform: rotate(-3deg) scaleX(1); }
+            50% { transform: rotate(3deg) scaleX(1); }
+            100% { transform: rotate(-3deg) scaleX(1); }
+        }
+
+        @keyframes bounce {
+            from { transform: translateY(0) scaleY(1); }
+            to { transform: translateY(-3px) scaleY(0.98); }
+        }
+
+        .dog-tail {
+            display: none;
+        }
+
+        .paw-prints {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 30%;
+            height: 100%;
+            background-image: radial-gradient(circle at center, #45a049 2px, transparent 2px);
+            background-size: 15px 100%;
+            background-repeat: repeat-x;
+            opacity: 0.3;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                width: 95%;
+            }
+
+            .word {
+                font-size: 2.2em;
+            }
+
+            .phonetic {
+                font-size: 1.1em;
+            }
+
+            button {
+                padding: 10px 20px;
+                font-size: 1em;
+            }
+
+            .header {
+                flex-direction: column;
+                gap: 10px;
+                padding: 10px;
+            }
+
+            .header h1 {
+                font-size: 1.5em;
+            }
+
+            .rewards-container {
+                width: 100%;
+                justify-content: center;
+                padding: 5px 0;
+            }
+
+            .star-count, .streak-counter {
+                font-size: 0.85em;
+            }
+
+            .word-content {
+                flex-direction: row;
+                gap: 20px;
+            }
+
+            .word-image {
+                width: 100px;
+                height: 100px;
+            }
+        }
+
+        .word-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .speaker-icon {
+            font-size: 1.5em;
+            color: #4CAF50;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .speaker-icon:hover {
+            transform: scale(1.1);
+            color: #45a049;
+        }
+
+        .rewards-container {
+            position: relative;
+            background: transparent;
+            padding: 0 15px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            box-shadow: none;
+        }
+
+        .star-count {
+            color: #FFD700;
+            font-size: 1.2em;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 5px 10px;
+            border-radius: 20px;
+        }
+
+        .streak-counter {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            margin-top: 0;
+        }
+
+        .achievement-popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(135deg, #ffffff 0%, #f5f7fa 100%);
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            z-index: 1000;
+            display: none;
+            animation: popupIn 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            border: 2px solid rgba(76, 175, 80, 0.3);
+        }
+
+        @keyframes popupIn {
+            0% {
+                transform: translate(-50%, -50%) scale(0.3);
+                opacity: 0;
+            }
+            50% {
+                transform: translate(-50%, -50%) scale(1.1);
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 1;
+            }
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+            100% {
+                transform: translateY(0px);
+            }
+        }
+
+        @keyframes glow {
+            0% {
+                box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
+            }
+            50% {
+                box-shadow: 0 0 20px rgba(76, 175, 80, 0.8);
+            }
+            100% {
+                box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
+            }
+        }
+
+        .encouragement-message {
+            text-align: center;
+            position: relative;
+            padding: 20px;
+        }
+
+        .encouragement-text {
+            font-size: 2em;
+            font-weight: bold;
+            background: linear-gradient(45deg, #4CAF50, #45a049);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 15px;
+            animation: float 2s ease-in-out infinite;
+        }
+
+        .encouragement-subtext {
+            font-size: 1em;
+            color: #666;
+            margin-top: 10px;
+        }
+
+        .encouragement-stars {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+        }
+
+        .star {
+            position: absolute;
+            animation: starFloat 1s ease-out forwards;
+            opacity: 0;
+        }
+
+        @keyframes starFloat {
+            0% {
+                transform: translate(0, 0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(var(--tx), var(--ty)) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .pet-status {
+            background: white;
+            border-radius: 15px;
+            padding: 15px;
+            margin: 10px 0;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+
+        .pet-level {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .pet-exp-bar {
+            width: 200px;
+            height: 10px;
+            background: #e0e0e0;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .pet-exp {
+            width: 30%;
+            height: 100%;
+            background: #FFD700;
+            transition: width 0.3s ease;
+        }
+
+        .pet-mood {
+            font-size: 1.2em;
+        }
+
+        .pet-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: 3px solid #4CAF50;
+            transition: transform 0.3s ease;
+        }
+
+        .pet-avatar:hover {
+            transform: scale(1.1);
+        }
+
+        .daily-tasks {
+            background: white;
+            border-radius: 15px;
+            padding: 15px;
+            margin: 10px 0;
+            text-align: left;
+        }
+
+        .task-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .task-reward {
+            color: #FFD700;
+            font-weight: bold;
+        }
+
+        .task-complete {
+            color: #4CAF50;
+        }
+
+        @keyframes celebrate {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2) rotate(10deg); }
+            100% { transform: scale(1) rotate(0); }
+        }
+
+        .celebrate {
+            animation: celebrate 0.5s ease;
+        }
+
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background: #FFD700;
+            position: absolute;
+            animation: fall 3s ease-in infinite;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .timer-container {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            border-radius: 25px;
+            padding: 20px;
+            margin: 15px 0;
+            box-shadow: 0 8px 16px rgba(76, 175, 80, 0.2);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .timer-label {
+            color: white;
+            font-size: 1.2em;
+            margin-bottom: 10px;
+            opacity: 0.9;
+        }
+
+        .timer-display {
+            font-size: 3.5em;
+            font-weight: bold;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+            margin: 10px 0;
+            font-family: 'Digital', monospace;
+        }
+
+        .timer-progress {
+            width: 90%;
+            height: 8px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 4px;
+            margin: 15px auto;
+            overflow: hidden;
+        }
+
+        .timer-bar {
+            width: 100%;
+            height: 100%;
+            background: white;
+            border-radius: 4px;
+            transition: width 1s linear;
+        }
+
+        .timer-controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .timer-btn {
+            padding: 12px 25px;
+            border-radius: 30px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1.1em;
+            font-weight: bold;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .start-btn {
+            background-color: white;
+            color: #4CAF50;
+        }
+
+        .pause-btn {
+            background-color: #FFA726;
+            color: white;
+        }
+
+        .reset-btn {
+            background-color: rgba(255,255,255,0.2);
+            color: white;
+        }
+
+        .timer-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+
+        .timer-btn i {
+            font-size: 1.2em;
+        }
+
+        .timer-decoration {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            opacity: 0.2;
+        }
+
+        .timer-decoration.top-left {
+            top: 10px;
+            left: 10px;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="white" d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm0 18c-4.4 0-8-3.6-8-8s3.6-8 8-8 8 3.6 8 8-3.6 8-8 8z"/></svg>');
+        }
+
+        .timer-decoration.bottom-right {
+            bottom: 10px;
+            right: 10px;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="white" d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm0 18c-4.4 0-8-3.6-8-8s3.6-8 8-8 8 3.6 8 8-3.6 8-8 8z"/></svg>');
+            transform: rotate(180deg);
+        }
+
+        @media (max-width: 600px) {
+            .timer-display {
+                font-size: 2.5em;
+            }
+
+            .timer-btn {
+                padding: 10px 20px;
+                font-size: 1em;
+            }
+
+            .timer-label {
+                font-size: 1em;
+            }
+        }
+
+        .stats-panel {
+            background: white;
+            border-radius: 15px;
+            padding: 15px;
+            margin: 10px 0;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #4CAF50;
+        }
+
+        .stat-label {
+            font-size: 0.9em;
+            color: #666;
+        }
+
+        .word-library-selector {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 10px 0;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .word-library-selector h3 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+
+        .library-select {
+            width: 100%;
+            max-width: 300px;
+            padding: 12px 20px;
+            font-size: 1.1em;
+            border: 2px solid #4CAF50;
+            border-radius: 25px;
+            background: white;
+            color: #333;
+            cursor: pointer;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background-image: url('data:image/svg+xml;charset=US-ASCII,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="%234CAF50" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>');
+            background-repeat: no-repeat;
+            background-position: right 15px center;
+            background-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .library-select:hover {
+            border-color: #45a049;
+            box-shadow: 0 2px 8px rgba(76, 175, 80, 0.2);
+        }
+
+        .library-select:focus {
+            outline: none;
+            border-color: #45a049;
+            box-shadow: 0 2px 8px rgba(76, 175, 80, 0.3);
+        }
+
+        .library-select option {
+            padding: 10px;
+            font-size: 1em;
+        }
+
+        .library-icon {
+            color: #4CAF50;
+            font-size: 1.5em;
+            margin-bottom: 10px;
+        }
+
+        /* 添加学习报告相关样式 */
+        .learning-report {
+            max-width: 500px;
+            padding: 20px;
+            background: linear-gradient(135deg, #ffffff 0%, #f0f7ff 100%);
+            border-radius: 25px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .report-title {
+            font-size: 2em;
+            color: transparent;
+            background: linear-gradient(45deg, #FF6B6B, #4ECDC4);
+            -webkit-background-clip: text;
+            background-clip: text;
+            text-align: center;
+            margin-bottom: 25px;
+            animation: titleGlow 2s ease-in-out infinite;
+            position: relative;
+        }
+
+        .report-section {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            padding: 20px;
+            margin: 15px 0;
+            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            backdrop-filter: blur(4px);
+            transform: translateY(30px);
+            opacity: 0;
+            animation: sectionSlideIn 0.5s ease-out forwards;
+        }
+
+        .dog-speech {
+            background: linear-gradient(135deg, #FFE259 0%, #FFA751 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 20px;
+            position: relative;
+            margin: 15px 0;
+            transform-origin: left center;
+            animation: speechBounce 0.5s ease-out;
+        }
+
+        .dog-speech:before {
+            content: '';
+            position: absolute;
+            left: -15px;
+            top: 50%;
+            border: 15px solid transparent;
+            border-right-color: #FFA751;
+            transform: translateY(-50%);
+        }
+
+        .dog-whisper {
+            font-style: italic;
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-5px);
+            }
+        }
+
+        /* 修改弹窗样式以适应报告 */
+        .achievement-popup {
+            max-width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            background: linear-gradient(135deg, #ffffff 0%, #f0f7ff 100%);
+        }
+
+        /* 添加可爱的滚动条样式 */
+        .achievement-popup::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .achievement-popup::-webkit-scrollbar-track {
+            background: #f0f7ff;
+            border-radius: 4px;
+        }
+
+        .achievement-popup::-webkit-scrollbar-thumb {
+            background: #4CAF50;
+            border-radius: 4px;
+        }
+
+        /* 学习报告样式优化 */
+        .learning-report {
+            max-width: 500px;
+            padding: 20px;
+            background: linear-gradient(135deg, #ffffff 0%, #f0f7ff 100%);
+            border-radius: 25px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .report-title {
+            font-size: 2em;
+            color: transparent;
+            background: linear-gradient(45deg, #FF6B6B, #4ECDC4);
+            -webkit-background-clip: text;
+            background-clip: text;
+            text-align: center;
+            margin-bottom: 25px;
+            animation: titleGlow 2s ease-in-out infinite;
+            position: relative;
+        }
+
+        .report-section {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            padding: 20px;
+            margin: 15px 0;
+            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            backdrop-filter: blur(4px);
+            transform: translateY(30px);
+            opacity: 0;
+            animation: sectionSlideIn 0.5s ease-out forwards;
+        }
+
+        .dog-speech {
+            background: linear-gradient(135deg, #FFE259 0%, #FFA751 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 20px;
+            position: relative;
+            margin: 15px 0;
+            transform-origin: left center;
+            animation: speechBounce 0.5s ease-out;
+        }
+
+        .dog-speech:before {
+            content: '';
+            position: absolute;
+            left: -15px;
+            top: 50%;
+            border: 15px solid transparent;
+            border-right-color: #FFA751;
+            transform: translateY(-50%);
+        }
+
+        .dog-whisper {
+            font-style: italic;
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        @keyframes titleGlow {
+            0%, 100% { text-shadow: 0 0 20px rgba(78, 205, 196, 0.5); }
+            50% { text-shadow: 0 0 40px rgba(255, 107, 107, 0.8); }
+        }
+
+        @keyframes sectionSlideIn {
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes speechBounce {
+            0% { transform: scale(0.8); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .achievements p {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            background: rgba(255,255,255,0.5);
+            border-radius: 15px;
+            margin: 10px 0;
+            transform: translateX(-20px);
+            opacity: 0;
+            animation: achievementSlide 0.5s ease-out forwards;
+        }
+
+        .funny-moments p {
+            background: linear-gradient(135deg, #E0C3FC 0%, #8EC5FC 100%);
+            color: white;
+            padding: 15px;
+            border-radius: 15px;
+            margin: 10px 0;
+            transform: scale(0.9);
+            opacity: 0;
+            animation: funnyPop 0.5s ease-out forwards;
+        }
+
+        .next-adventure {
+            background: linear-gradient(135deg, #84FAB0 0%, #8FD3F4 100%);
+            color: white;
+        }
+
+        @keyframes achievementSlide {
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes funnyPop {
+            0% { transform: scale(0.9); opacity: 0; }
+            50% { transform: scale(1.1); opacity: 0.7; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        /* 添加闪光效果 */
+        .achievement-star {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: gold;
+            clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+            animation: starRotate 2s linear infinite;
+        }
+
+        @keyframes starRotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* 添加彩虹效果 */
+        .rainbow-text {
+            background: linear-gradient(to right, violet, indigo, blue, green, yellow, orange, red);
+            -webkit-background-clip: text;
+            color: transparent;
+            animation: rainbow 5s linear infinite;
+        }
+
+        @keyframes rainbow {
+            0% { filter: hue-rotate(0deg); }
+            100% { filter: hue-rotate(360deg); }
+        }
+
+        .close-button {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ff6b6b, #ff8e8e);
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 18px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(255, 107, 107, 0.3);
+            z-index: 1000;
+        }
+
+        .close-button:hover {
+            transform: rotate(90deg);
+            background: linear-gradient(135deg, #ff5252, #ff7676);
+            box-shadow: 0 4px 12px rgba(255, 107, 107, 0.4);
+        }
+
+        .close-button:active {
+            transform: rotate(90deg) scale(0.95);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>我爱学习，学习使我妈快乐！</h1>
+            <div class="rewards-container">
+                <div class="star-count">
+                    <i class="fas fa-star"></i> <span id="stars">0</span>
+                </div>
+                <div class="streak-counter">
+                    连续学习: <span id="streak">0</span> 天
+                </div>
+            </div>
+        </div>
+
+        <div class="timer-container">
+            <div class="timer-decoration top-left"></div>
+            <div class="timer-decoration bottom-right"></div>
+            <div class="timer-label">今日学习时间</div>
+            <div class="timer-display" id="timer">05:00</div>
+            <div class="timer-progress">
+                <div class="timer-bar" id="timerBar"></div>
+            </div>
+            <div class="timer-controls">
+                <button class="timer-btn start-btn" id="startTimer">
+                    <i class="fas fa-play"></i> 开始学习
+                </button>
+                <button class="timer-btn pause-btn" id="pauseTimer" style="display:none;">
+                    <i class="fas fa-pause"></i> 暂停
+                </button>
+                <button class="timer-btn reset-btn" id="resetTimer">
+                    <i class="fas fa-redo"></i> 重置
+                </button>
+            </div>
+        </div>
+
+        <div class="pet-status">
+            <img src="images/cute-white-dog-cartoon-puppy-illustration-for-pet-lovers_m_wm.png" class="pet-avatar">
+            <div class="pet-level">
+                <span>等级 <span id="petLevel">1</span></span>
+                <div class="pet-exp-bar">
+                    <div class="pet-exp"></div>
+                </div>
+            </div>
+            <div class="pet-mood">心情: 😊</div>
+        </div>
+
+        <div class="progress-container">
+            <div class="progress-bar">
+                <div class="paw-prints"></div>
+                <div class="progress"></div>
+            </div>
+            <div class="running-dog">
+            </div>
+        </div>
+
+        <div class="word-card">
+            <div class="word-content">
+                <img src="images/fresh-charlotte-varenye-apple-fruit-for-healthy-eating.pngfree.ai.png" 
+                     alt="苹果" 
+                     class="word-image">
+                <div class="word-info">
+                    <div class="word-container">
+                        <div class="word">Apple</div>
+                        <i class="fas fa-volume-up speaker-icon" onclick="speakWord()"></i>
+                    </div>
+                    <div class="phonetic">/ˈæp.əl/</div>
+                    <div class="meaning">苹果</div>
+                    <div class="buttons">
+                        <button class="know-btn">认识</button>
+                        <button class="unknown-btn">不认识</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="daily-tasks">
+            <h3>今日任务</h3>
+            <div class="task-item">
+                <span>背诵10个单词 <span class="task-progress">(3/10)</span></span>
+                <span class="task-reward">🌟 +5</span>
+            </div>
+            <div class="task-item">
+                <span>连续答对5个单词</span>
+                <span class="task-reward">🌟 +3</span>
+            </div>
+        </div>
+
+        <div class="achievement-popup" id="achievementPopup">
+            <h3>🎉 新成就解锁！</h3>
+            <p id="achievementText"></p>
+        </div>
+
+        <div class="stats-panel">
+            <h3>学习统计</h3>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-value" id="totalWords">0</div>
+                    <div class="stat-label">已学单词</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="accuracy">0%</div>
+                    <div class="stat-label">正确率</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="todayWords">0</div>
+                    <div class="stat-label">今日新词</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="word-library-selector">
+            <div class="library-icon">
+                <i class="fas fa-book"></i>
+            </div>
+            <h3>选择词库</h3>
+            <select class="library-select" id="wordLibrary" onchange="changeWordLibrary()">
+                <option value="primary1">一年级词库</option>
+                <option value="primary2">二年级词库</option>
+                <option value="primary3">三年级词库</option>
+                <option value="primary4">四年级词库</option>
+                <option value="primary5">五年级词库</option>
+                <option value="primary6">六年级词库</option>
+            </select>
+        </div>
+    </div>
+
+    <script>
+        function speakWord() {
+            const word = document.querySelector('.word').textContent;
+            const utterance = new SpeechSynthesisUtterance(word);
+            utterance.lang = 'en-US';
+            utterance.rate = 0.8;
+            speechSynthesis.speak(utterance);
+        }
+
+        function updateProgress(percentage) {
+            const progress = document.querySelector('.progress');
+            const dog = document.querySelector('.running-dog');
+            const pawPrints = document.querySelector('.paw-prints');
+            
+            progress.style.width = percentage + '%';
+            pawPrints.style.width = percentage + '%';
+            dog.style.left = `calc(${percentage}% - 25px)`;
+        }
+
+        document.querySelector('.know-btn').addEventListener('click', function() {
+            playSound('correct');
+            const currentWidth = parseFloat(document.querySelector('.progress').style.width) || 30;
+            const newWidth = Math.min(currentWidth + 10, 100);
+            updateProgress(newWidth);
+        });
+
+        // 确保 DOM 完全加载后再执行
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM loaded'); // 调试日志
+
+            // 计时器变量
+            let timeLeft = 30; // 改为30秒
+            let timerId = null;
+            let isTimerRunning = false;
+
+            // 获取 DOM 元素
+            const timerDisplay = document.getElementById('timer');
+            const timerBar = document.getElementById('timerBar');
+            const startBtn = document.getElementById('startTimer');
+            const pauseBtn = document.getElementById('pauseTimer');
+            const resetBtn = document.getElementById('resetTimer');
+
+            console.log('Elements found:', { 
+                timerDisplay, 
+                timerBar, 
+                startBtn, 
+                pauseBtn, 
+                resetBtn 
+            }); // 调试日志
+
+            // 格式化时间
+            function formatTime(seconds) {
+                const minutes = Math.floor(seconds / 60);
+                const remainingSeconds = seconds % 60;
+                return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+            }
+
+            // 更新计时器显示
+            function updateTimer() {
+                if (timerDisplay && timerBar) {
+                    timerDisplay.textContent = formatTime(timeLeft);
+                    const progress = (timeLeft / 30) * 100;
+                    timerBar.style.width = `${progress}%`;
+                }
+            }
+
+            // 重置计时器
+            function resetTimer() {
+                console.log('Reset timer called'); // 调试日志
+                if (timerId) {
+                    clearInterval(timerId);
+                }
+                isTimerRunning = false;
+                timeLeft = 30; // 改为30秒
+                updateTimer();
+                if (startBtn && pauseBtn) {
+                    startBtn.style.display = 'flex';
+                    pauseBtn.style.display = 'none';
+                }
+                if (timerDisplay) {
+                    timerDisplay.classList.remove('timer-alert');
+                }
+            }
+
+            // 开始计时
+            function startTimer() {
+                console.log('Start timer called');
+                if (!isTimerRunning) {
+                    isTimerRunning = true;
+                    if (startBtn && pauseBtn) {
+                        startBtn.style.display = 'none';
+                        pauseBtn.style.display = 'flex';
+                    }
+
+                    timerId = setInterval(() => {
+                        timeLeft--;
+                        updateTimer();
+
+                        if (timeLeft <= 0) {
+                            clearInterval(timerId);
+                            isTimerRunning = false;
+                            // 显示学习报告
+                            showLearningReport();
+                            resetTimer();
+                        }
+                    }, 1000);
+                }
+            }
+
+            // 暂停计时
+            function pauseTimer() {
+                console.log('Pause timer called'); // 调试日志
+                if (timerId) {
+                    clearInterval(timerId);
+                }
+                isTimerRunning = false;
+                if (startBtn && pauseBtn) {
+                    startBtn.style.display = 'flex';
+                    pauseBtn.style.display = 'none';
+                }
+            }
+
+            // 定事件监听器
+            if (startBtn) {
+                startBtn.addEventListener('click', startTimer);
+                console.log('Start button listener added');
+            }
+            if (pauseBtn) {
+                pauseBtn.addEventListener('click', pauseTimer);
+                console.log('Pause button listener added');
+            }
+            if (resetBtn) {
+                resetBtn.addEventListener('click', resetTimer);
+                console.log('Reset button listener added');
+            }
+
+            // 初始化计时器
+            resetTimer();
+        });
+
+        // 添加全局错误处理
+        window.addEventListener('error', function(e) {
+            console.error('Global error:', e.message);
+            console.error('Stack:', e.error?.stack);
+        });
+
+        // 保存学习进度
+        function saveProgress() {
+            const progress = {
+                stars: parseInt(document.getElementById('stars').textContent),
+                streak: parseInt(document.getElementById('streak').textContent),
+                petLevel: parseInt(document.getElementById('petLevel').textContent),
+                lastStudyDate: new Date().toDateString()
+            };
+            localStorage.setItem('learningProgress', JSON.stringify(progress));
+        }
+
+        // 加载学习进度
+        function loadProgress() {
+            const savedProgress = localStorage.getItem('learningProgress');
+            if (savedProgress) {
+                const progress = JSON.parse(savedProgress);
+                document.getElementById('stars').textContent = progress.stars;
+                document.getElementById('streak').textContent = progress.streak;
+                document.getElementById('petLevel').textContent = progress.petLevel;
+                
+                // 检查是否需要更新连续学习天数
+                const lastStudyDate = new Date(progress.lastStudyDate);
+                const today = new Date();
+                if (today.toDateString() !== lastStudyDate.toDateString()) {
+                    const streak = parseInt(document.getElementById('streak').textContent);
+                    document.getElementById('streak').textContent = streak + 1;
+                    showAchievement('🎉 连续学习 ' + (streak + 1) + ' 天！继续加油！');
+                }
+            }
+        }
+
+        // 页面加载时加载进度
+        window.addEventListener('load', loadProgress);
+
+        // 添加音效函数
+        function playSound(type) {
+            const sounds = {
+                correct: 'data:audio/mp3;base64,...', // 这里需要添加实际的音效文件
+                wrong: 'data:audio/mp3;base64,...',
+                achievement: 'data:audio/mp3;base64,...'
+            };
+            
+            const audio = new Audio(sounds[type]);
+            audio.play();
+        }
+
+        function changeWordLibrary() {
+            const library = document.getElementById('wordLibrary').value;
+            // 这里添加切换词库的逻辑
+            showAchievement('已切换到' + document.getElementById('wordLibrary').selectedOptions[0].text);
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // 鼓励语数组
+            const encouragements = [
+                "太棒了！",
+                "真厉害！",
+                "你真是个小天才！",
+                "继续加油！",
+                "学习小达人！",
+                "完全正确！",
+                "好棒好棒！",
+                "你真聪明！"
+            ];
+
+            // 修改 know-btn 的点击事件处理
+            document.querySelector('.know-btn').addEventListener('click', function() {
+                // 更新进度
+                const currentWidth = parseFloat(document.querySelector('.progress').style.width) || 30;
+                const newWidth = Math.min(currentWidth + 10, 100);
+                updateProgress(newWidth);
+
+                // 随机选择一个鼓励语
+                const encouragement = encouragements[Math.floor(Math.random() * encouragements.length)];
+                
+                // 显示鼓励窗
+                showEncouragement(encouragement);
+
+                // 更新宠物心情
+                updatePetMood();
+
+                // 播放音效和语音
+                playEncouragementSound(encouragement);
+
+                // 更新学习统计
+                updateLearningStats();
+            });
+
+            function showEncouragement(message) {
+                const popup = document.getElementById('achievementPopup');
+                document.getElementById('achievementText').innerHTML = `
+                    <div class="encouragement-message">
+                        <div class="encouragement-stars"></div>
+                        <div class="encouragement-text">${message}</div>
+                        <div class="encouragement-subtext">
+                            继续保持这个学习热��！
+                            <div class="bonus-info">+5 星星</div>
+                        </div>
+                    </div>
+                `;
+
+                // 添加星星动画
+                createStars();
+
+                // 显示鼓励窗
+                popup.style.display = 'block';
+                popup.style.animation = 'popupIn 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55), glow 2s ease-in-out infinite';
+
+                // 自动关闭
+                setTimeout(() => {
+                    popup.style.animation = 'popupOut 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards';
+                    setTimeout(() => {
+                        popup.style.display = 'none';
+                    }, 500);
+                }, 2000);
+            }
+
+            function createStars() {
+                const starsContainer = document.querySelector('.encouragement-stars');
+                starsContainer.innerHTML = '';
+                
+                for (let i = 0; i < 12; i++) {
+                    const star = document.createElement('div');
+                    star.className = 'star';
+                    star.innerHTML = '⭐';
+                    star.style.setProperty('--tx', `${(Math.random() - 0.5) * 200}px`);
+                    star.style.setProperty('--ty', `${(Math.random() - 0.5) * 200}px`);
+                    star.style.left = '50%';
+                    star.style.top = '50%';
+                    star.style.position = 'absolute';
+                    star.style.fontSize = `${Math.random() * 20 + 10}px`;
+                    star.style.animationDelay = `${Math.random() * 0.5}s`;
+                    starsContainer.appendChild(star);
+                }
+            }
+
+            function updatePetMood() {
+                const petMood = document.querySelector('.pet-mood');
+                const petAvatar = document.querySelector('.pet-avatar');
+                
+                // 更新心情表情
+                petMood.textContent = '心情: 🥳';
+                
+                // 添加开心动画
+                petAvatar.style.transform = 'scale(1.1)';
+                petAvatar.style.transition = 'transform 0.3s ease';
+                
+                setTimeout(() => {
+                    petMood.textContent = '心情: 😊';
+                    petAvatar.style.transform = 'scale(1)';
+                }, 2000);
+            }
+
+            function playEncouragementSound(encouragement) {
+                // 播放正确答案音效
+                const correctSound = new Audio('data:audio/mp3;base64,SUQzBAAAAAAAI1RTU0UAAAAPAAADTGF2ZjU4LjIwLjEwMAAAAAAAAAAAAAAA//tUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWGluZwAAAA8AAAACAAADQABISEhISEhISEhISEhISEhISEhISEhISEhISEhISEhISEhISEhISEhISEhISEhISEhI//////////////////////////////////////////////////////////////////8AAAAATGF2YzU4LjM1AAAAAAAAAAAAAAAAJAYAAAAAAAAAAwD/+1DEAB8AAAGkAAAAIAAANIAAAAQgeAR5KS/RX4EeAR5KS/RX6wEeAR5KS/RX6...');
+                correctSound.play().catch(error => {
+                    console.log('音效播放失败:', error);
+                });
+
+                // 使用语音播报鼓励语
+                const utterance = new SpeechSynthesisUtterance(encouragement);
+                utterance.lang = 'zh-CN';
+                utterance.rate = 1.0;
+                utterance.pitch = 1.2;
+                speechSynthesis.speak(utterance);
+            }
+
+            function updateLearningStats() {
+                // 更新今日新词数量
+                const todayWords = document.getElementById('todayWords');
+                let count = parseInt(todayWords.textContent) || 0;
+                todayWords.textContent = count + 1;
+
+                // 更新总词数
+                const totalWords = document.getElementById('totalWords');
+                let total = parseInt(totalWords.textContent) || 0;
+                totalWords.textContent = total + 1;
+
+                // 更新正确率
+                const accuracy = document.getElementById('accuracy');
+                const newAccuracy = Math.round((total + 1) / (total + 2) * 100);
+                accuracy.textContent = newAccuracy + '%';
+
+                // 保存进度
+                saveProgress();
+            }
+
+            // 初始化音频上下文（用于音效播放）
+            let audioContext;
+            try {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            } catch (e) {
+                console.log('Web Audio API 不支持');
+            }
+        });
+
+        // 在 script 标签内添加学习报告相关函数
+        function showLearningReport() {
+            const popup = document.getElementById('achievementPopup');
+            // 获取今日学习数据
+            const todayWords = parseInt(document.getElementById('todayWords').textContent) || 0;
+            const totalStars = parseInt(document.getElementById('stars').textContent) || 0;
+            const streak = parseInt(document.getElementById('streak').textContent) || 0;
+
+            // 生成报告内容
+            const report = `
+                <div class="learning-report">
+                    <button class="close-button" onclick="closeReport()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                    <h2 class="report-title">
+                        <span class="rainbow-text">🌟 哇！今日学习大冒险 🌟</span>
+                    </h2>
+                    
+                    <div class="report-section dog-report">
+                        <h3>✨ 汪汪队长特别报告 ✨</h3>
+                        <p class="dog-speech">
+                            "哈喽！我是你的学习小伙伴旺旺！<br>
+                            今天你简直太厉害啦！<br>
+                            像超级英雄一样，一下子就记住了这么多单词！"
+                        </p>
+                    </div>
+
+                    <div class="report-section achievements">
+                        <h3>🏆 今日超级成就 🏆</h3>
+                        <p class="achievement-item">
+                            <span class="achievement-icon">🌟</span>
+                            <span>词汇大师：完美记住了 ${todayWords} 个单词</span>
+                        </p>
+                        <p class="achievement-item">
+                            <span class="achievement-icon">🎯</span>
+                            <span>超级连击：连续答对 ${streak} 题</span>
+                        </p>
+                        <p class="achievement-item">
+                            <span class="achievement-icon">⭐</span>
+                            <span>收集星星：今日获得 ${totalStars} 颗星星</span>
+                        </p>
+                    </div>
+
+                    <div class="report-section funny-moments">
+                        <h3>🎈 今日欢乐时刻 🎈</h3>
+                        <p>
+                            <span class="moment-icon">🐾</span>
+                            主人念单词时的可爱表情
+                            <br>把我都逗笑啦！
+                        </p>
+                    </div>
+
+                    <div class="report-section next-adventure">
+                        <h3>🎪 明日精彩预告 🎪</h3>
+                        <p class="adventure-preview">
+                            <span class="preview-icon">🎁</span>
+                            神秘大奖等你来拿！
+                        </p>
+                        <p class="dog-whisper">
+                            （旺旺偷偷告诉你：��备了超级大惊喜！）
+                        </p>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('achievementText').innerHTML = report;
+            popup.style.display = 'block';
+
+            // 添加动画效果
+            animateReport();
+        }
+
+        // 添加动画效果
+        function animateReport() {
+            const sections = document.querySelectorAll('.report-section');
+            sections.forEach((section, index) => {
+                section.style.animation = `slideIn 0.5s ease-out ${index * 0.2}s forwards`;
+            });
+        }
+
+        // 添加关闭函数
+        function closeReport() {
+            const popup = document.getElementById('achievementPopup');
+            popup.style.animation = 'popupOut 0.3s ease-out forwards';
+            setTimeout(() => {
+                popup.style.display = 'none';
+            }, 300);
+        }
+    </script>
+</body>
+</html>
